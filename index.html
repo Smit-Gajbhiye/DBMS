@@ -757,10 +757,11 @@ UPDATE StudentMarks
 SELECT * FROM StudentMarks;</code></pre></div></div></div></section>
 
         <section id="exp14" class="section" data-section="exp14"><div class="container"><h1 style="color: var(--accent-color);">Experiment 14: MongoDB CRUD Operations (Week 14)</h1><div class="card"><h2>Scenario</h2><p><strong>A college wants to manage student course registrations using MongoDB. Each student registers for different courses, and the system needs to store and manage student information in a database. The administrator should be able to add new student records, view student details, update course information, and delete records when necessary. MongoDB CRUD operations will be used to perform these tasks.</strong><br><br><strong>Tasks to Perform:</strong><br>• Create a MongoDB database named CollegeDB.<br>• Create a collection named Students.<br>• Insert student records using the save() method with the following fields: StudentID, Name, Course, Year, Marks. Insert at least 5 student documents into the collection.<br>• Read Operations:<br>&nbsp;&nbsp;&nbsp;&nbsp;- Display all student records from the collection.<br>&nbsp;&nbsp;&nbsp;&nbsp;- Display students who belong to the "Computer Engineering" course.<br>&nbsp;&nbsp;&nbsp;&nbsp;- Display students who have marks greater than 70.<br>• Update Operation: Update the course of a student whose StudentID is 102.<br>• Delete Operation: Delete the record of a student whose StudentID is 105.<br>• Use Logical Operators:<br>&nbsp;&nbsp;&nbsp;&nbsp;- Display students who have marks greater than 60 AND belong to the "IT" course using $and.<br>&nbsp;&nbsp;&nbsp;&nbsp;- Display students who belong to "Computer Engineering" OR "IT" courses using $or.</p></div><div class="card"><h2>MongoDB Code</h2><div class="code-section"><button class="copy-btn">Copy Code</button><pre><code class="language-javascript">-- Switch to Database
+// Create Database
 use CollegeDB
 
--- Insert 5 Student Documents
-db.Students.save({
+// Insert records into Students collection
+db.Students.insertOne({
     StudentID: 101,
     Name: "Rahul",
     Course: "Computer Engineering",
@@ -768,7 +769,7 @@ db.Students.save({
     Marks: 85
 })
 
-db.Students.save({
+db.Students.insertOne({
     StudentID: 102,
     Name: "Sneha",
     Course: "IT",
@@ -776,7 +777,7 @@ db.Students.save({
     Marks: 72
 })
 
-db.Students.save({
+db.Students.insertOne({
     StudentID: 103,
     Name: "Amit",
     Course: "Computer Engineering",
@@ -784,7 +785,7 @@ db.Students.save({
     Marks: 65
 })
 
-db.Students.save({
+db.Students.insertOne({
     StudentID: 104,
     Name: "Anjali",
     Course: "Mechanical",
@@ -792,7 +793,7 @@ db.Students.save({
     Marks: 90
 })
 
-db.Students.save({
+db.Students.insertOne({
     StudentID: 105,
     Name: "Rohan",
     Course: "IT",
@@ -800,32 +801,43 @@ db.Students.save({
     Marks: 58
 })
 
--- READ Operations
-db.Students.find()  -- Find all documents
-db.Students.find({Course: "Computer Engineering"})
-db.Students.find({Marks: {$gt: 70}})
+// Display all students
+db.Students.find()
 
--- UPDATE Operation
+// Students from Computer Engineering
+db.Students.find({
+    Course: "Computer Engineering"
+})
+
+// Students with marks > 70
+db.Students.find({
+    Marks: { $gt: 70 }
+})
+
+// Update course
 db.Students.updateOne(
-    {StudentID: 102},
-    {$set: {Course: "Computer Engineering"}}
+    { StudentID: 102 },
+    { $set: { Course: "Computer Engineering" } }
 )
 
--- DELETE Operation
-db.Students.deleteOne({StudentID: 105})
+// Delete student
+db.Students.deleteOne({
+    StudentID: 105
+})
 
--- Advanced Queries
+// Using $and
 db.Students.find({
     $and: [
-        {Marks: {$gt: 60}},
-        {Course: "IT"}
+        { Marks: { $gt: 60 } },
+        { Course: "IT" }
     ]
 })
 
+// Using $or
 db.Students.find({
     $or: [
-        {Course: "Computer Engineering"},
-        {Course: "IT"}
+        { Course: "Computer Engineering" },
+        { Course: "IT" }
     ]
 })</code></pre></div></div></div></section>
     </main>
